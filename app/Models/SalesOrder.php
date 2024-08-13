@@ -18,6 +18,11 @@ class SalesOrder extends Model
         'status',
     ];
 
+    public function items()
+    {
+        return $this->hasMany(SalesOrderItem::class);
+    }
+
     public function business()
     {
         return $this->belongsTo(Business::class);

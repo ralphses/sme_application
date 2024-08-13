@@ -15,6 +15,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'status',
         'role',
     ];
 
@@ -36,5 +37,10 @@ class User extends Authenticatable
     public function customers()
     {
         return $this->hasMany(Customer::class);
+    }
+
+    public function recentActivities()
+    {
+        return $this->hasMany(RecentActivity::class);
     }
 }

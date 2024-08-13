@@ -70,13 +70,13 @@
                     <a href="{{ route('dashboard') }}"><i class="ti ti-home me-2"></i>Dashboard</a>
                 </li>
                 <li class="sidebar">
-                    <a href="#"><i class="ti ti-users me-2"></i>Manage Users</a>
+                    <a href="{{ route('dashboard.users') }}"><i class="ti ti-users me-2"></i>Manage Users</a>
                 </li>
                 <li class="sidebar">
-                    <a href="#"><i class="ti ti-building me-2"></i>Manage Businesses</a>
+                    <a href="{{ route('dashboard.business') }}"><i class="ti ti-building me-2"></i>Manage Businesses</a>
                 </li>
                 <li class="sidebar">
-                    <a href="#"><i class="ti ti-bar-chart me-2"></i>Reports</a>
+                    <a href="{{ route('dashboard.report') }}"><i class="ti ti-bar-chart me-2"></i>Reports</a>
                 </li>
                 <li class="sidebar">
                     <a href="#"><i class="ti ti-settings me-2"></i>Settings</a>

@@ -12,6 +12,7 @@ class Business extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'status',
         'description',
     ];
 
@@ -58,5 +59,15 @@ class Business extends Model
     public function paymentMethodOptions()
     {
         return $this->hasMany(PaymentMethodOption::class);
+    }
+
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
+    }
+
+    public function revenues()
+    {
+        return $this->hasMany(Revenue::class);
     }
 }

@@ -15,36 +15,20 @@ use App\Models\Expense;
 use App\Models\Payment;
 use App\Models\Report;
 use App\Models\PaymentMethodOption;
+use App\Models\RecentActivity;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-
-        User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@easysme.com',
-            'password' => Hash::make('password'),
-            'role' => Utils::ROLE_ADMIN,
-        ]);
-
-        User::factory()->create([
-            'name' => 'Employee User',
-            'email' => 'employee@easysme.com',
-            'password' => Hash::make('password'),
-            'role' => Utils::ROLE_EMPLOYEE,
-        ]);
-
-        User::factory()->create([
-            'name' => 'Business Owner',
-            'email' => 'business_owner@easysme.com',
-            'password' => Hash::make('password'),
-            'role' => Utils::ROLE_BUSINESS_OWNER,
-        ]);
-
         // Create users
-        $users = User::factory()->count(6)->create();
+        $users = User::factory()->count(10)->create();
+
+        // Create recent activities for users
+        RecentActivity::factory()->count(50)->create([
+            'user_id' => $users->random()->id
+        ]);
 
         // Create businesses for each user
         $users->each(function ($user) {
@@ -67,17 +51,19 @@ class DatabaseSeeder extends Seeder
 
                     // Create sales order items for each sales order
                     $salesOrders->each(function ($salesOrder) use ($products) {
-                        SalesOrderItem::factory()->count(5)->create([
+                        $items = SalesOrderItem::factory()->count(5)->create([
                             'sales_order_id' => $salesOrder->id,
                             'product_id' => $products->random()->id,
                         ]);
-                    });
 
-                    // Create a payment for each sales order
-                    $salesOrders->each(function ($salesOrder) use ($business) {
+                        // Calculate the total amount from sales order items
+                        $totalAmount = $items->sum('price');
+
+                        // Create a payment for each sales order with the total amount
                         Payment::factory()->create([
                             'sales_order_id' => $salesOrder->id,
-                            'business_id' => $business->id,
+                            'business_id' => $salesOrder->business_id,
+                            'amount' => $totalAmount,
                         ]);
                     });
                 });
