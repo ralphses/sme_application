@@ -38,10 +38,6 @@ class SalesOrder extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function salesOrderItems()
-    {
-        return $this->hasMany(SalesOrderItem::class);
-    }
 
     public function payment()
     {

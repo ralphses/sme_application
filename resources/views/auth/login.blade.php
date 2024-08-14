@@ -1,4 +1,3 @@
-
 <x-guest-layout>
 
     <!-- Hero Start -->
@@ -13,12 +12,23 @@
                             <h5 class="mb-3 text-center">Please sign in</h5>
 
                             <div class="form-floating mb-2">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required autofocus>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="name@example.com" value="{{ old('email') }}" required autofocus>
                                 <label for="email">Email address</label>
+                                @error('email')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
+
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password" required>
                                 <label for="password">Password</label>
+                                @error('password')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
 
                             <div class="d-flex justify-content-between">
@@ -33,7 +43,7 @@
                             <button class="btn btn-primary w-100" type="submit">Sign in</button>
 
                             <div class="col-12 text-center mt-3">
-                                <p class="mb-0 mt-3"><small class="text-dark me-2">Don't have an account ?</small> <a href="{{ route('register') }}" class="text-dark fw-bold">Sign Up</a></p>
+                                <p class="mb-0 mt-3"><small class="text-dark me-2">Don't have an account?</small> <a href="{{ route('register') }}" class="text-dark fw-bold">Sign Up</a></p>
                             </div>
 
                             <p class="mb-0 text-muted mt-3 text-center">© <script>document.write(new Date().getFullYear())</script> EasySME.</p>
@@ -44,4 +54,5 @@
         </div> <!--end container-->
     </section><!--end section-->
     <!-- Hero End -->
+
 </x-guest-layout>

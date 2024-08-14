@@ -76,9 +76,15 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ ucfirst($user->role) }}</td>
-                                    <td>{{ $user->status }}</td>
+                                    <td>{{ ucfirst($user->status) }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-danger btn-sm">Suspend</a>
+                                        <form action="{{ route('dashboard.users.updateStatus', $user->id) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-sm {{ $user->status === 'active' ? 'btn-danger' : 'btn-success' }}">
+                                                {{ $user->status === 'active' ? 'Suspend' : 'Activate' }}
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -99,7 +105,7 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th scope="col">Business Name</th>
+                                <th scope="col">Name</th>
                                 <th scope="col">Owner</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Actions</th>
@@ -110,10 +116,15 @@
                                 <tr>
                                     <td>{{ $business->name }}</td>
                                     <td>{{ $business->user->name }}</td>
-                                    <td>{{ $business->status }}</td>
+                                    <td>{{ ucfirst($business->status) }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-warning btn-sm">Edit</a>
-                                        <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                                        <form method="POST" action="{{ route('dashboard.business.updateStatus', $business->id) }}" class="d-inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-{{ $business->status === 'active' ? 'danger' : 'success' }} btn-sm">
+                                                {{ $business->status === 'active' ? 'Deactivate' : 'Activate' }}
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

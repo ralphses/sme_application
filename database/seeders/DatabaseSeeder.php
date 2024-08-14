@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Employee;
 use App\Utils\Utils;
 use Illuminate\Database\Seeder;
 use App\Models\User;
@@ -22,6 +23,30 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        User::factory()->create([
+            'name' => 'Admin User',
+            'email' => 'admin@easysme.com',
+            'password' => Hash::make('password'),
+            'role' => Utils::ROLE_ADMIN,
+            'status' => Utils::BUSINESS_STATUS_ACTIVE,
+        ]);
+
+        User::factory()->create([
+            'name' => 'Employee User',
+            'email' => 'employee@easysme.com',
+            'password' => Hash::make('password'),
+            'role' => Utils::ROLE_EMPLOYEE,
+            'status' => Utils::BUSINESS_STATUS_ACTIVE,
+        ]);
+
+        User::factory()->create([
+            'name' => 'Business Owner',
+            'email' => 'business_owner@easysme.com',
+            'password' => Hash::make('password'),
+            'role' => Utils::ROLE_BUSINESS_OWNER,
+            'status' => Utils::BUSINESS_STATUS_ACTIVE,
+        ]);
+
         // Create users
         $users = User::factory()->count(10)->create();
 
@@ -84,6 +109,10 @@ class DatabaseSeeder extends Seeder
 
                 // Create reports for each business
                 Report::factory()->count(2)->create(['business_id' => $business->id]);
+
+                Employee::factory()->count(2)->create([
+                    'business_id' => $business->id
+                ]);
             });
         });
     }

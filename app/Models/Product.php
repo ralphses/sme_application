@@ -13,6 +13,7 @@ class Product extends Model
         'business_id',
         'name',
         'description',
+        'quantity',
         'price',
     ];
 

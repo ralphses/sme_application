@@ -23,18 +23,18 @@
             <li class="list-inline-item mb-0 ms-1">
                 <div class="dropdown dropdown-primary">
                     <button type="button" class="btn btn-soft-primary dropdown-toggle p-0"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</button>
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{auth()->user()->name}}</button>
                     <div class="dropdown-menu dd-menu dropdown-menu-end shadow border-0 mt-3 py-3"
                          style="min-width: 200px;">
                         <div class="flex-1 ms-2">
-                            <span class="d-block">User</span>
-                            <small class="text-muted">User Role</small>
+                            <span class="d-block">{{auth()->user()->name}}</span>
+                            <small class="text-muted">{{ auth()->user()->role }}</small>
                         </div>
                         <div class="dropdown-divider border-top"></div>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button class="dropdown-item text-dark" type="submit"><i class="ti ti-logout"></i>
-                                Logout</p></button>
+                                <p>Logout</p></button>
                         </form>
                     </div>
                 </div>

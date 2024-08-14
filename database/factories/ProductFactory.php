@@ -19,6 +19,7 @@ class ProductFactory extends Factory
             'business_id' => Business::factory(),
             'name' => $this->faker->word,
             'description' => $this->faker->sentence,
+            'quantity' => $this->faker->numberBetween(0, 50),
             'price' => $this->faker->randomFloat(2, 10, 1000), // random price between 10 and 1000
             'created_at' => now(),
             'updated_at' => now(),
