@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Business;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -16,7 +17,7 @@ class BusinessController extends Controller
      * @param Request $request
      * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         // Retrieve search and sort parameters
         $search = $request->input('search', '');
@@ -49,14 +50,61 @@ class BusinessController extends Controller
         ]);
     }
 
-    // Show the form for editing the specified business
-    public function edit($id)
+    /**
+     * Show the form for creating a new business.
+     *
+     * @return View
+     */
+    public function create(): View
+    {
+        return view('dashboard.business.create');
+    }
+
+    /**
+     * Store a newly created business in storage.
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        // Validate the request data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'address' => 'required|string',
+        ]);
+
+        // Create the new business
+        Business::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'address' => $request->input('address'),
+            'user_id' => $request->user()->id,
+        ]);
+
+        return redirect()->route('dashboard')->with('status', 'Business created successfully!');
+    }
+
+    /**
+     * Show the form for editing the specified business.
+     *
+     * @param int $id
+     * @return View
+     */
+    public function edit($id): View
     {
         $business = Business::findOrFail($id);
         return view('dashboard.business.edit', compact('business'));
     }
 
-    // Update the specified business in storage
+    /**
+     * Update the specified business in storage.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return RedirectResponse
+     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -72,7 +120,13 @@ class BusinessController extends Controller
         return redirect()->route('dashboard.business')->with('status', 'Business updated successfully!');
     }
 
-    // Toggle the status of a business
+    /**
+     * Toggle the status of a business.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return RedirectResponse
+     */
     public function updateStatus(Request $request, $id)
     {
         try {

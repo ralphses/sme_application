@@ -13,6 +13,7 @@ class Business extends Model
         'user_id',
         'name',
         'status',
+        'address',
         'description',
     ];
 

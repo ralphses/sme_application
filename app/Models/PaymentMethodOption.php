@@ -19,4 +19,8 @@ class PaymentMethodOption extends Model
     {
         return $this->belongsTo(Business::class);
     }
+
+    public function salesOrders() {
+        return $this->hasMany(SalesOrder::class);
+    }
 }

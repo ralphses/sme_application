@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\SalesOrderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,7 @@ Route::prefix('dashboard')->group(function () {
     });
 
     Route::prefix('reports')->group(function () {
-       Route::get('/', [ReportController::class, 'index'])->name('dashboard.report');
+        Route::get('/', [ReportController::class, 'index'])->name('dashboard.report');
     });
 
     Route::prefix("sales")->group(function () {
@@ -38,14 +39,22 @@ Route::prefix('dashboard')->group(function () {
     });
 
     Route::prefix('products')->group(function () {
-       Route::get('/', [ProductController::class, 'index'])->name('dashboard.products');
+        Route::get('/', [ProductController::class, 'index'])->name('dashboard.products');
         Route::get('/create', [ProductController::class, 'create'])->name('products.create');
         Route::post('/create', [ProductController::class, 'store'])->name('products.store');
     });
 
     Route::prefix("business")->group(function () {
         Route::patch('/{id}/status', [BusinessController::class, 'updateStatus'])->name('dashboard.business.updateStatus');
-        Route::get("/", [BusinessController::class, 'index'])->name('dashboard.business');
+        Route::get("", [BusinessController::class, 'index'])->name('dashboard.business');
+        Route::get("/create", [BusinessController::class, 'create'])->name('dashboard.business.create');
+        Route::post("/store", [BusinessController::class, 'store'])->name('dashboard.business.store');
+
+        Route::prefix("orders")->group(function () {
+            Route::get('', [SalesOrderController::class, "index"])->name('dashboard.business.order');
+            Route::get('new', [SalesOrderController::class, "create"])->name('dashboard.business.order.create');
+            Route::post('new', [SalesOrderController::class, "store"])->name('dashboard.business.order.create');
+        });
     });
 
 })->middleware(['auth']);
@@ -56,4 +65,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Business;
 use App\Models\Product;
 use App\Utils\Utils;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PHPUnit\Exception;
 
 class ProductController extends Controller
 {
@@ -57,23 +59,29 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the request
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:0',
-        ]);
+        try {
+            // Validate the request
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'price' => 'required|numeric|min:0',
+                'quantity' => 'required|integer|min:0',
+            ]);
 
-        // Get the authenticated user's business
-        $business = Business::where('user_id', Auth::id())->firstOrFail();
 
-        // Create the new product
-        Product::create([
-            'name' => $request->input('name'),
-            'price' => $request->input('price'),
-            'quantity' => $request->input('quantity'),
-            'business_id' => $business->id,
-        ]);
+            // Get the authenticated user's business
+            $business = Business::where('user_id', Auth::id())->firstOrFail();
+
+            // Create the new product
+            Product::create([
+                'name' => $request->input('name'),
+                'price' => $request->input('price'),
+                'quantity' => $request->input('quantity'),
+                'business_id' => $business->id,
+            ]);
+        }catch (ModelNotFoundException $exception) {
+            dd($exception->getMessage());
+        }
+
 
         return redirect()->route('dashboard.products')->with('success', 'Product added successfully.');
     }

@@ -46,7 +46,7 @@
                     <div class="card bg-light text-center">
                         <div class="card-body">
                             <h6 class="text-muted">Total Revenue</h6>
-                            <p class="fs-4 text-dark fw-bold">${{ number_format($data['total_revenue'], 2) }}</p>
+                            <p class="fs-4 text-dark fw-bold">N{{ number_format($data['total_revenue'], 2) }}</p>
                         </div>
                     </div>
                 </div><!--end col-->
@@ -75,7 +75,7 @@
                                 <tr>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ ucfirst($user->role) }}</td>
+                                    <td>{{ str_replace('_', ' ', ucfirst($user->role)) }}</td>
                                     <td>{{ ucfirst($user->status) }}</td>
                                     <td>
                                         <form action="{{ route('dashboard.users.updateStatus', $user->id) }}" method="POST">

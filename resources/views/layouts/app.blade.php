@@ -77,7 +77,7 @@
 
                 @can('isEmployee', User::class)
                     <li class="sidebar">
-                        <a href="#"><i class="ti ti-users me-2"></i>Orders</a>
+                        <a href="{{ route('dashboard.business.order') }}"><i class="ti ti-users me-2"></i>Orders</a>
                     </li>
                 @endcan
 

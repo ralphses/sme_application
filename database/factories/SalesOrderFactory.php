@@ -4,8 +4,10 @@ namespace Database\Factories;
 
 use App\Models\Business;
 use App\Models\Customer;
+use App\Models\PaymentMethodOption;
 use App\Models\SalesOrder;
 use App\Models\User;
+use App\Utils\Utils;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,8 +24,9 @@ class SalesOrderFactory extends Factory
             'user_id' => User::factory(),
             'customer_id' => Customer::factory(),
             'order_date' => $this->faker->date(),
+            'payment_method_options_id' => PaymentMethodOption::factory(),
             'total_amount' => $this->faker->randomFloat(2, 100, 10000), // random amount between 100 and 10000
-            'status' => $this->faker->randomElement(['pending', 'completed', 'canceled']),
+            'status' => $this->faker->randomElement([Utils::ORDER_STATUS_PENDING, Utils::ORDER_STATUS_COMPLETED, Utils::ORDER_STATUS_CANCELLED]),
             'created_at' => now(),
             'updated_at' => now(),
         ];

@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('business_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
+            $table->foreignId('payment_method_options_id')->constrained()->onDelete('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('cascade');
             $table->date('order_date');
             $table->decimal('total_amount', 10, 2);
             $table->string('status'); // For example: pending, completed, canceled
